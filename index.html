@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wayne1881 - GitHub Portfolio</title>
+    <meta name="description" content="wayne1881 的 GitHub 個人作品集，展示 AI、機器學習、網頁開發等多元專案。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Reset & Base ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #e8e8ed;
+            --text-secondary: #8b8b9e;
+            --text-muted: #5a5a6e;
+            --accent-blue: #6366f1;
+            --accent-purple: #a855f7;
+            --accent-cyan: #22d3ee;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --gradient-primary: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05));
+            --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== 背景動畫 ===== */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-orbs .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-blue);
+            top: -10%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-purple);
+            top: 50%;
+            right: -10%;
+            animation-delay: -7s;
+        }
+
+        .orb:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-pink);
+            bottom: -5%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -40px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(15px, 30px) scale(1.02); }
+        }
+
+        /* ===== 內容容器 ===== */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== 導航列 ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.9);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+        }
+
+        .nav-brand-text {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link-github {
+            background: var(--gradient-primary);
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .nav-link-github:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* ===== Hero 區域 ===== */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: var(--accent-blue);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            background-image: linear-gradient(var(--bg-primary), var(--bg-primary)), var(--gradient-primary);
+            margin: 0 auto 32px;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+            position: relative;
+        }
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .hero-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(15px);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        /* ===== 區塊標題 ===== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 100px;
+            margin: 16px auto 0;
+        }
+
+        /* ===== 技能標籤區 ===== */
+        .tech-section {
+            padding: 40px 0 80px;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .tech-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 100px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .tech-tag .tech-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* ===== 儲存庫卡片區 ===== */
+        .repos-section {
+            padding: 40px 0 100px;
+        }
+
+        .repos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+        }
+
+        .repo-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: var(--gradient-card);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .repo-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .repo-card:hover::before {
+            opacity: 1;
+        }
+
+        .repo-card-content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .repo-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .repo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .repo-badges {
+            display: flex;
+            gap: 6px;
+        }
+
+        .repo-badge {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-fork {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+        }
+
+        .badge-original {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+
+        .repo-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-name .arrow {
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.3s ease;
+            color: var(--accent-blue);
+        }
+
+        .repo-card:hover .repo-name .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .repo-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .repo-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .repo-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .repo-meta-item .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .repo-meta-item svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.6;
+        }
+
+        /* ===== 語言顏色 ===== */
+        .lang-html { background: #e34c26; }
+        .lang-python { background: #3572A5; }
+        .lang-jupyter { background: #DA5B0B; }
+        .lang-php { background: #4F5D95; }
+        .lang-javascript { background: #f1e05a; }
+        .lang-default { background: var(--text-muted); }
+
+        /* ===== 圖標背景色 ===== */
+        .icon-blue { background: rgba(99, 102, 241, 0.15); }
+        .icon-purple { background: rgba(168, 85, 247, 0.15); }
+        .icon-cyan { background: rgba(34, 211, 238, 0.15); }
+        .icon-pink { background: rgba(236, 72, 153, 0.15); }
+        .icon-green { background: rgba(16, 185, 129, 0.15); }
+        .icon-orange { background: rgba(245, 158, 11, 0.15); }
+
+        /* ===== Footer ===== */
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer-text a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-text a:hover {
+            color: var(--accent-purple);
+        }
+
+        .footer-heart {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            color: var(--accent-pink);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* ===== 動畫 ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== 響應式 ===== */
+        @media (max-width: 768px) {
+            .repos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 32px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .navbar-inner {
+                padding: 0 16px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .content {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding-top: 110px;
+                padding-bottom: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-brand-text {
+                display: none;
+            }
+        }
+
+        /* ===== 滾動條 ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== 粒子效果 ===== */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景效果 -->
+    <div class="bg-grid"></div>
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+
+    <!-- 導航列 -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="nav-brand">
+                <div class="nav-brand-icon">W</div>
+                <span class="nav-brand-text">wayne1881</span>
+            </a>
+            <div class="nav-links">
+                <a href="#repos" class="nav-link">專案</a>
+                <a href="#tech" class="nav-link">技術</a>
+                <a href="https://github.com/wayne1881" target="_blank" class="nav-link nav-link-github">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 4px; vertical-align: -2px;">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <!-- Hero 區域 -->
+        <section class="hero" id="hero">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                開源愛好者 · 持續學習中
+            </div>
+
+            <div class="hero-avatar">
+                <img src="https://avatars.githubusercontent.com/u/134677555?v=4" alt="wayne1881 avatar" loading="eager">
+            </div>
+
+            <h1>嗨，我是 <span class="gradient-text">wayne1881</span></h1>
+
+            <p class="hero-subtitle">
+                熱衷於 AI、機器學習與網頁開發的開發者。<br>
+                在 GitHub 上探索、學習、創造。
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value" id="repoCount">9</div>
+                    <div class="stat-label">儲存庫</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">5+</div>
+                    <div class="stat-label">技術領域</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2023</div>
+                    <div class="stat-label">開始年份</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技術標籤 -->
+        <section class="tech-section fade-in" id="tech">
+            <div class="section-header">
+                <h2>技術棧</h2>
+                <p>涵蓋多個開發領域的技術能力</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #3572A5;"></span>
+                    Python
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #DA5B0B;"></span>
+                    Jupyter Notebook
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #e34c26;"></span>
+                    HTML / CSS
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #f1e05a;"></span>
+                    JavaScript
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #4F5D95;"></span>
+                    PHP
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #ff6f00;"></span>
+                    TensorFlow / Keras
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #00d4aa;"></span>
+                    Machine Learning
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #6366f1;"></span>
+                    Deep Learning
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #22d3ee;"></span>
+                    OpenCV
+                </div>
+                <div class="tech-tag">
+                    <span class="tech-dot" style="background: #ec4899;"></span>
+                    Computer Vision
+                </div>
+            </div>
+        </section>
+
+        <!-- 儲存庫區域 -->
+        <section class="repos-section fade-in" id="repos">
+            <div class="section-header">
+                <h2>專案作品集</h2>
+                <p>探索我在 GitHub 上的所有儲存庫</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="repos-grid">
+                <!-- AgentCoding -->
+                <a href="https://github.com/wayne1881/AgentCoding" target="_blank" class="repo-card fade-in" id="repo-agentcoding">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-blue">🤖</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">AgentCoding <span class="arrow">→</span></div>
+                        <div class="repo-desc">Agent 自動程式編寫專案，展示 AI 驅動的程式碼生成與自動化開發能力。此儲存庫同時作為個人 GitHub Pages 展示頁面。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 10 0-1.5.75.75 0 000 1.5zM8 12.75a.75.75 0 10 0-1.5.75.75 0 000 1.5z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2026
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tetris -->
+                <a href="https://github.com/wayne1881/Tetris" target="_blank" class="repo-card fade-in" id="repo-tetris">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-cyan">🎮</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">Tetris <span class="arrow">→</span></div>
+                        <div class="repo-desc">經典俄羅斯方塊遊戲的網頁版本，使用 HTML 實作，在瀏覽器中即可暢玩的互動式遊戲專案。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 821 KB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2026
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- AI -->
+                <a href="https://github.com/wayne1881/AI" target="_blank" class="repo-card fade-in" id="repo-ai">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-purple">🧠</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">AI <span class="arrow">→</span></div>
+                        <div class="repo-desc">人工智慧相關實驗與筆記，使用 Jupyter Notebook 記錄 AI 學習歷程，涵蓋各種 AI 演算法的實作與探索。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-jupyter"></span>
+                                Jupyter Notebook
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 194 KB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2025 - 2026
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- face_classification -->
+                <a href="https://github.com/wayne1881/face_classification" target="_blank" class="repo-card fade-in" id="repo-face">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-pink">👤</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-fork">Fork</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">face_classification <span class="arrow">→</span></div>
+                        <div class="repo-desc">即時人臉偵測與情緒/性別分類系統。使用 fer2013/imdb 資料集搭配 Keras CNN 模型與 OpenCV 實作即時辨識功能。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-python"></span>
+                                Python
+                            </div>
+                            <div class="repo-meta-item">
+                                📜 MIT License
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 121 MB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2025
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- machinelearning -->
+                <a href="https://github.com/wayne1881/machinelearning" target="_blank" class="repo-card fade-in" id="repo-ml">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-green">📊</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">machinelearning <span class="arrow">→</span></div>
+                        <div class="repo-desc">機器學習演算法學習與實驗專案，使用 Jupyter Notebook 實作各種經典 ML 演算法，涵蓋監督式與非監督式學習。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-jupyter"></span>
+                                Jupyter Notebook
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 1.4 MB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2025
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- php2 -->
+                <a href="https://github.com/wayne1881/php2" target="_blank" class="repo-card fade-in" id="repo-php2">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-blue">🐘</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">php2 <span class="arrow">→</span></div>
+                        <div class="repo-desc">PHP 網頁開發進階專案，探索 PHP 伺服器端開發的各種功能與技術，包含實際的 Web 應用程式實作。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-php"></span>
+                                PHP
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 49 KB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2024
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- php (fork) -->
+                <a href="https://github.com/wayne1881/php" target="_blank" class="repo-card fade-in" id="repo-php">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-purple">🐘</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-fork">Fork</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">php <span class="arrow">→</span></div>
+                        <div class="repo-desc">PHP 網頁開發學習專案（Fork），透過實際程式碼練習 PHP 基礎語法與網頁後端開發技能，分支版本為 112-2 學期課程。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-php"></span>
+                                PHP
+                            </div>
+                            <div class="repo-meta-item">
+                                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 10 0-1.5.75.75 0 000 1.5zM8 12.75a.75.75 0 10 0-1.5.75.75 0 000 1.5z"/></svg>
+                                0
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 116 KB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2024
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- HackMD -->
+                <a href="https://github.com/wayne1881/HackMD" target="_blank" class="repo-card fade-in" id="repo-hackmd">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-orange">📝</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">HackMD <span class="arrow">→</span></div>
+                        <div class="repo-desc">HackMD 筆記整合專案，使用 PHP 建立筆記管理系統，支援協作式 Markdown 文件管理與分享功能。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-php"></span>
+                                PHP
+                            </div>
+                            <div class="repo-meta-item">
+                                ⚠️ 1 issue
+                            </div>
+                            <div class="repo-meta-item">
+                                💾 3 KB
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2023 - 2024
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- - (dash repo) -->
+                <a href="https://github.com/wayne1881/-" target="_blank" class="repo-card fade-in" id="repo-dash">
+                    <div class="repo-card-content">
+                        <div class="repo-header">
+                            <div class="repo-icon icon-cyan">📁</div>
+                            <div class="repo-badges">
+                                <span class="repo-badge badge-original">原創</span>
+                            </div>
+                        </div>
+                        <div class="repo-name">- (個人專案) <span class="arrow">→</span></div>
+                        <div class="repo-desc">個人實驗性專案儲存庫，用於存放各種程式碼片段、實驗與臨時專案的工作空間。</div>
+                        <div class="repo-meta">
+                            <div class="repo-meta-item">
+                                <span class="lang-dot lang-default"></span>
+                                未指定語言
+                            </div>
+                            <div class="repo-meta-item">
+                                📅 2026
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">
+                以 <span class="footer-heart">♥</span> 打造 ·
+                <a href="https://github.com/wayne1881" target="_blank">wayne1881</a> © 2026
+                · Powered by GitHub Pages
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 導航列滾動效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // 淡入動畫觀察器
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // 粒子效果
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.setProperty('--duration', (3 + Math.random() * 5) + 's');
+            particle.style.setProperty('--delay', (Math.random() * 5) + 's');
+            particlesContainer.appendChild(particle);
+        }
+
+        // 統計數字動畫
+        function animateValue(el, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.floor(eased * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 頁面載入時觸發數字動畫
+        window.addEventListener('load', () => {
+            const repoCount = document.getElementById('repoCount');
+            animateValue(repoCount, 0, 9, 1200);
+        });
+
+        // 平滑捲動
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
